@@ -12,9 +12,10 @@ namespace BaltaDataAccess
             const string connectionString = "Server=localhost,1433;Database=balta;User ID=sa;Password=1q2w3e4r@#$;Trusted_Connection=False; TrustServerCertificate=True";
             using (var connection = new SqlConnection(connectionString))
             {
-                UpdateCategory(connection);
+                // UpdateCategory(connection);
                 ListCategories(connection);
                 // CreateCategory(connection);
+                ExecuteProcedure(connection);
             }
         }
 
@@ -29,7 +30,6 @@ namespace BaltaDataAccess
 
         public static void CreateCategory(SqlConnection connection)
         {
-
             var category = new Category();
 
             category.Id = Guid.NewGuid();
@@ -76,7 +76,20 @@ namespace BaltaDataAccess
             System.Console.WriteLine();
             System.Console.WriteLine($"{rows} registros atualizadas");
             System.Console.WriteLine();
-
         }
+        static void ExecuteProcedure(SqlConnection connection)
+        {
+            var sql = "[spDeleteStudent]";
+            var pars = new { StudentId = "79b82071-80a8-4e78-a79c-92c8cd1fd052" };
+
+            var affectedRows = connection.Execute(
+                sql,
+                pars,
+                commandType: System.Data.CommandType.StoredProcedure
+            );
+
+            System.Console.WriteLine($"{affectedRows} linhas afetadas");
+        }
+
     }
 }
