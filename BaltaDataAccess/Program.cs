@@ -13,9 +13,10 @@ namespace BaltaDataAccess
             using (var connection = new SqlConnection(connectionString))
             {
                 // UpdateCategory(connection);
-                ListCategories(connection);
+                // ListCategories(connection);
                 // CreateCategory(connection);
-                ExecuteProcedure(connection);
+                // ExecuteProcedure(connection);
+                ExecuteReadProcedure(connection);
             }
         }
 
@@ -91,5 +92,21 @@ namespace BaltaDataAccess
             System.Console.WriteLine($"{affectedRows} linhas afetadas");
         }
 
+        static void ExecuteReadProcedure(SqlConnection connection)
+        {
+            var sql = "[spGetCoursesByCategory]";
+            var pars = new { CategoryId = "09ce0b7b-cfca-497b-92c0-3290ad9d5142" };
+
+            var courses = connection.Query(
+                sql,
+                pars,
+                commandType: System.Data.CommandType.StoredProcedure
+            );
+
+            foreach (var c in courses)
+            {
+                System.Console.WriteLine(c.Id);
+            }
+        }
     }
 }
