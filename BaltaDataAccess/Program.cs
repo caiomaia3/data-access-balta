@@ -22,7 +22,8 @@ namespace BaltaDataAccess
                 // ExecuteScalar(connection);
                 // ReadView(connection);
                 // OneToOne(connection);
-                OneToMany(connection);
+                // OneToMany(connection);
+                QueryMultiple(connection);
             }
         }
 
@@ -236,6 +237,27 @@ namespace BaltaDataAccess
                     System.Console.WriteLine($" - {item.Title}");
                 }
                 // System.Console.WriteLine($"{item.Title} \t - \t Curso: {item.Course.Title}");
+            }
+        }
+
+        static void QueryMultiple(SqlConnection connection)
+        {
+            var query = "SELECT * FROM [Category]; SELECT * FROM [Course]";
+
+            using (var multi = connection.QueryMultiple(query))
+            {
+                var categories = multi.Read<Category>();
+                var courses = multi.Read<Course>();
+
+                foreach (var item in categories)
+                {
+                    System.Console.WriteLine(item.Title);
+                }
+                System.Console.WriteLine();
+                foreach (var item in courses)
+                {
+                    System.Console.WriteLine(item.Title);
+                }
             }
         }
     }
