@@ -25,7 +25,8 @@ namespace BaltaDataAccess
                 // OneToMany(connection);
                 // QueryMultiple(connection);
                 // SelectIn(connection);
-                Like(connection, "api");
+                // Like(connection, "api");
+                Transaction(connection);
             }
         }
 
@@ -293,6 +294,52 @@ namespace BaltaDataAccess
             foreach (var item in items)
             {
                 System.Console.WriteLine(item.Title);
+            }
+        }
+
+
+
+
+        static void Transaction(SqlConnection connection)
+        {
+            var category = new Category();
+
+            category.Id = Guid.NewGuid();
+            category.Title = "Minha Cat";
+            category.Url = "amazon";
+            category.Description = "Categoria destinada a serviços AWS";
+            category.Order = 8;
+            category.Summary = "AWS Cloud";
+            category.Featured = false;
+
+            const string insertSql = @"
+            INSERT INTO [Category]
+            VALUES (
+                @Id,
+                @Title,
+                @Url,
+                @Summary,
+                @Order,
+                @Description,
+                @Featured
+            )";
+
+            connection.Open();
+            using (var transaction = connection.BeginTransaction())
+            {
+                var rows = connection.Execute(insertSql, new
+                {
+                    category.Id,
+                    category.Title,
+                    category.Url,
+                    category.Summary,
+                    category.Order,
+                    category.Description,
+                    category.Featured
+                }, transaction);
+                transaction.Commit();
+                // transaction.Rollback();
+                System.Console.WriteLine($"{rows} linhas inseridas.");
             }
         }
     }
