@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using BaltaDataAccess.Model;
 using Dapper;
 using Microsoft.Data.SqlClient;
@@ -19,7 +21,8 @@ namespace BaltaDataAccess
                 // ExecuteReadProcedure(connection);
                 // ExecuteScalar(connection);
                 // ReadView(connection);
-                OneToOne(connection);
+                // OneToOne(connection);
+                OneToMany(connection);
             }
         }
 
@@ -183,6 +186,56 @@ namespace BaltaDataAccess
             foreach (var item in items)
             {
                 System.Console.WriteLine($"{item.Title} \t - \t Curso: {item.Course.Title}");
+            }
+        }
+
+
+        static void OneToMany(SqlConnection connection)
+        {
+            var sql = @"
+                SELECT  
+                    [Career].[Id],
+                    [Career].[Title],
+                    [CareerItem].[CareerId],
+                    [CareerItem].[Title]
+                FROM
+                    [Career]
+                INNER JOIN
+                    [CareerItem]
+                ON
+                    [Career].[Id] = [CareerItem].[CareerId]
+                ORDER BY
+                    [Career].[Title]
+            ";
+
+            var careers = new List<Career>();
+            var queryItem = connection.Query<Career, CareerItem, Career>(
+                sql,
+                (career, item) =>
+                {
+                    var car = careers.Where(x => x.Id == career.Id).FirstOrDefault();
+                    if (car == null)
+                    {
+                        car = career;
+                        car.Items.Add(item);
+                        careers.Add(car);
+                    }
+                    else
+                    {
+                        car.Items.Add(item);
+                    }
+                    return career;
+                },
+                splitOn: "CareerId");
+
+            foreach (var career in careers)
+            {
+                System.Console.WriteLine(career.Title);
+                foreach (var item in career.Items)
+                {
+                    System.Console.WriteLine($" - {item.Title}");
+                }
+                // System.Console.WriteLine($"{item.Title} \t - \t Curso: {item.Course.Title}");
             }
         }
     }
