@@ -18,7 +18,8 @@ namespace BaltaDataAccess
                 // ExecuteProcedure(connection);
                 // ExecuteReadProcedure(connection);
                 // ExecuteScalar(connection);
-                ReadView(connection);
+                // ReadView(connection);
+                OneToOne(connection);
             }
         }
 
@@ -157,6 +158,31 @@ namespace BaltaDataAccess
             foreach (var c in courses)
             {
                 System.Console.WriteLine($"{c.Id} - {c.Title}");
+            }
+        }
+
+        static void OneToOne(SqlConnection connection)
+        {
+            var sql = @"
+            SELECT
+                *
+            FROM 
+                [CareerItem]
+            INNER JOIN 
+                [Course] ON [CareerItem].[CourseId] = [Course].[Id]";
+
+            var items = connection.Query<CareerItem, Course, CareerItem>(
+                sql,
+                (careerItem, course) =>
+                {
+                    careerItem.Course = course;
+                    return careerItem;
+                },
+                splitOn: "Id");
+
+            foreach (var item in items)
+            {
+                System.Console.WriteLine($"{item.Title} \t - \t Curso: {item.Course.Title}");
             }
         }
     }
