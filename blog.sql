@@ -1,0 +1,146 @@
+-- Run in VS Code with Crtl+Shift+E
+CREATE DATABASE [blog]
+GO
+
+USE [blog]
+GO
+
+CREATE TABLE [User]
+(
+    [Id] INT NOT NULL IDENTITY(1,1),
+    [Name] NVARCHAR(80) NOT NULL,
+    [Email] VARCHAR(200) NOT NULL,
+    [PasswordHash] VARCHAR(255) NOT NULL,
+    [Bio] TEXT NOT NULL,
+    [Image] VARCHAR(2000) NOT NULL,
+    [Slug] VARCHAR(80) NOT NULL
+)
+
+CREATE TABLE [Role]
+(
+    [Id] INT NOT NULL IDENTITY(1,1),
+    [Name] NVARCHAR(80) NOT NULL,
+    [Slug] VARCHAR(80) NOT NULL
+)
+GO
+
+CREATE TABLE [UserRole]
+(
+    [UserId] INT NOT NULL,
+    [RoleId] INT NOT NULL
+)
+
+CREATE TABLE [Category]
+(
+    [Id] INT NOT NULL IDENTITY(1,1),
+    [Name] VARCHAR(80) NOT NULL,
+    [Slug] VARCHAR(80) NOT NULL
+)
+
+CREATE TABLE [Post]
+(
+    [Id] INT NOT NULL IDENTITY(1,1),
+    [CategoryId] INT NOT NULL,
+    [AuthorId] INT NOT NULL,
+    [Title] VARCHAR(160) NOT NULL,
+    [Summary] VARCHAR(255) NOT NULL,
+    [Body] TEXT NOT NULL,
+    [Slug] VARCHAR(80) NOT NULL,
+    [CreateDate] DATETIME NOT NULL DEFAULT(GETDATE()),
+    [LastUpdateDate] DATETIME NOT NULL DEFAULT(GETDATE())
+)
+
+ALTER TABLE [User]
+ADD CONSTRAINT [PK_User]
+PRIMARY KEY ([Id])
+GO
+
+ALTER TABLE [User]
+ADD CONSTRAINT [UQ_User_Email]
+UNIQUE ([Email])
+GO
+
+ALTER TABLE [User]
+ADD CONSTRAINT [UQ_User_Slug]
+UNIQUE ([Slug])
+GO
+
+CREATE TABLE [Tag]
+(
+    [Id] INT NOT NULL IDENTITY(1,1),
+    [Name] VARCHAR(80) NOT NULL,
+    [Slug] VARCHAR(80) NOT NULL
+)
+
+CREATE TABLE [PostTag]
+(
+    [PostId] INT NOT NULL,
+    [TagId] INT NOT NULL
+)
+
+
+ALTER TABLE [Role]
+ADD CONSTRAINT [PK_Role]
+PRIMARY KEY ([Id])
+GO
+
+
+ALTER TABLE [Role]
+ADD CONSTRAINT [UQ_Role_Slug]
+UNIQUE ([Slug])
+GO
+
+CREATE NONCLUSTERED INDEX [IX_Role_Slug] ON [Role]([Slug])
+
+ALTER TABLE [UserRole]
+ADD CONSTRAINT [PK_UserRole]
+PRIMARY KEY ([UserId],[RoleId])
+
+ALTER TABLE [Category]
+ADD CONSTRAINT [PK_Category]
+PRIMARY KEY([Id])
+GO
+
+ALTER TABLE [Category]
+ADD CONSTRAINT [UQ_Category_Slug]
+UNIQUE([Slug])
+GO
+
+CREATE NONCLUSTERED INDEX [UX_Category_Slug] ON [Category]([Slug])
+
+ALTER TABLE [Post]
+ADD CONSTRAINT [PK_Post]
+PRIMARY KEY ([Id])
+GO
+
+ALTER TABLE [Post]
+ADD CONSTRAINT [FK_PostCategory_CategoryId]
+FOREIGN KEY([CategoryId]) REFERENCES [Category]([Id])
+
+ALTER TABLE [Post]
+ADD CONSTRAINT [FK_PostAuthor_AuthorId]
+FOREIGN KEY([AuthorId]) REFERENCES [User]([Id])
+
+ALTER TABLE [Post]
+ADD CONSTRAINT [UQ_Post_Slug]
+UNIQUE ([Slug])
+
+CREATE NONCLUSTERED INDEX [IX_Post_Slug] ON [Post]([Slug])
+GO
+
+ALTER TABLE [Tag]
+ADD CONSTRAINT [PK_Tag]
+PRIMARY KEY([Id])
+GO
+
+ALTER TABLE [Tag]
+ADD CONSTRAINT [UQ_Tag_Slug]
+UNIQUE([Slug])
+GO
+
+CREATE NONCLUSTERED INDEX [IX_Tag_Slug] ON [Tag]([Slug])
+GO
+
+ALTER TABLE [PostTag] 
+ADD CONSTRAINT [PK_PostTag]
+PRIMARY KEY ([PostId],[TagId])
