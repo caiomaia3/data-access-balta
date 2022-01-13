@@ -11,7 +11,7 @@ namespace Blog.Services
         private ConnectionService() { }
 
         private const string CONNECTION_STRING = @"Server=localhost,1433;Database=blog;User ID=sa;Password=1q2w3e4r@#$;Trusted_Connection=False; TrustServerCertificate=True";
-        public SqlConnection connection = new SqlConnection(CONNECTION_STRING);
+        public SqlConnection connection => new SqlConnection(CONNECTION_STRING);
         private static ConnectionService _instance;
 
         public static ConnectionService GetInstance()

@@ -12,33 +12,34 @@ namespace Blog
         private const string CONNECTION_STRING = @"Server=localhost,1433;Database=blog;User ID=sa;Password=1q2w3e4r@#$;Trusted_Connection=False; TrustServerCertificate=True";
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-            ReadUsers();
+            ConnectionService.GetInstance().connection.Open();
+
+            ReadUser(1);
+            ReadRoles();
+            ReadTags();
+            System.Console.WriteLine();
             // ReadUser();
             // CreateUser();
             // UpdateUser();
-            // DeleteUser();
+            DeleteUser();
+            ReadUsers();
+            // UpdateUser();
+
+            ConnectionService.GetInstance().connection.Close();
         }
 
         public static void ReadUsers()
         {
-            var repository = new UserRepository();
-            // var repository2 = new UserRepository();
-            // System.Console.WriteLine(repository._connection == repository2._connection);
-            var users = repository.Get();
-            foreach (var user in users) System.Console.WriteLine(user.Name);
+            var repository = new Repository<User>();
+            var items = repository.Read();
+            foreach (var item in items) System.Console.WriteLine(item.Name);
         }
-
-        public static void ReadUser()
+        public static void ReadUser(int id)
         {
-            using (var connection = new SqlConnection(CONNECTION_STRING))
-            {
-                var user = connection.Get<User>(1);
-                System.Console.WriteLine(user.Name);
-            }
-
+            var repository = new Repository<User>();
+            var item = repository.Read(id);
+            Console.WriteLine(item.Name);
         }
-
         public static void CreateUser()
         {
             var user = new User()
@@ -50,20 +51,27 @@ namespace Blog
                 PasswordHash = "Hash",
                 Slug = "equipe-balta"
             };
-            using (var connection = new SqlConnection(CONNECTION_STRING))
-            {
-                connection.Insert<User>(user);
-                System.Console.WriteLine("Cadastro realizado com sucesso.");
-            }
-
+            var repository = new Repository<User>();
+            repository.Create(user);
         }
-
+        public static void ReadRoles()
+        {
+            var repository = new Repository<Role>();
+            var items = repository.Read();
+            foreach (var item in items) System.Console.WriteLine(item.Name);
+        }
+        public static void ReadTags()
+        {
+            var repository = new Repository<Tag>();
+            var items = repository.Read();
+            foreach (var item in items) System.Console.WriteLine(item.Name);
+        }
 
         public static void UpdateUser()
         {
             var user = new User()
             {
-                Id = 3,
+                Id = 5,
                 Name = "Equipe de suporte Balta",
                 Bio = "Equipe | Balta",
                 Email = "hello@balta.io",
@@ -71,22 +79,15 @@ namespace Blog
                 PasswordHash = "Hash",
                 Slug = "equipe-balta"
             };
-            using (var connection = new SqlConnection(CONNECTION_STRING))
-            {
-                connection.Update<User>(user);
-                System.Console.WriteLine("Cadastro realizado com sucesso.");
-            }
-
+            var repository = new Repository<User>();
+            repository.Update(user);
         }
 
         public static void DeleteUser()
         {
-            using (var connection = new SqlConnection(CONNECTION_STRING))
-            {
-                var user = connection.Get<User>(3);
-                connection.Delete<User>(user);
-                System.Console.WriteLine("Deleção realizada com sucesso.");
-            }
+            var repository = new Repository<User>();
+            repository.Delete(5);
+            // System.Console.WriteLine("Deleção realizada com sucesso.");
         }
     }
 }
