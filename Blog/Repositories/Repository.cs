@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Blog.Interfaces;
-using Blog.Models;
 using Blog.Services;
 using Dapper.Contrib.Extensions;
 using Microsoft.Data.SqlClient;
@@ -9,7 +8,7 @@ namespace Blog.Repositories
 {
     public class Repository<TModel> where TModel : class, IHasId
     {
-        public Repository() => _connection = ConnectionService.GetInstance().connection;
+        public Repository() => _connection = ConnectionService.GetInstance().Connection;
 
         public readonly SqlConnection _connection;
 

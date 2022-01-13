@@ -13,6 +13,5 @@ namespace Blog.Models
         public List<Post> Posts { get; set; }
 
         public Category() => Posts = new List<Post>();
-
     }
 }

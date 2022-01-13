@@ -2,18 +2,18 @@
 using Blog.Models;
 using Blog.Repositories;
 using Blog.Services;
-using Dapper.Contrib.Extensions;
-using Microsoft.Data.SqlClient;
 
 namespace Blog
 {
-    class Program
+    public static class Program
     {
-        private const string CONNECTION_STRING = @"Server=localhost,1433;Database=blog;User ID=sa;Password=1q2w3e4r@#$;Trusted_Connection=False; TrustServerCertificate=True";
-        static void Main(string[] args)
+        private static void Main()
         {
-            ConnectionService.GetInstance().connection.Open();
-
+            ConnectionService.GetInstance().Connection.Open();
+            var cat = new Category();
+            cat.Posts.Add(new Post());
+            System.Console.WriteLine("Hello!");
+            // /*
             ReadUser(1);
             ReadRoles();
             ReadTags();
@@ -21,11 +21,12 @@ namespace Blog
             // ReadUser();
             // CreateUser();
             // UpdateUser();
-            DeleteUser();
+            // DeleteUser();
             ReadUsers();
             // UpdateUser();
+            // */
 
-            ConnectionService.GetInstance().connection.Close();
+            ConnectionService.GetInstance().Connection.Close();
         }
 
         public static void ReadUsers()

@@ -8,7 +8,7 @@ namespace Blog.Repositories
 {
     public class RoleRepository
     {
-        public RoleRepository() => _connection = ConnectionService.GetInstance().connection;
+        public RoleRepository() => _connection = ConnectionService.GetInstance().Connection;
 
         public readonly SqlConnection _connection;
 
