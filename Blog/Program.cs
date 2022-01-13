@@ -10,13 +10,13 @@ namespace Blog
         private static void Main()
         {
             ConnectionService.GetInstance().Connection.Open();
-            var cat = new Category();
-            cat.Posts.Add(new Post());
-            System.Console.WriteLine("Hello!");
+            // var cat = new Category();
+            // cat.Posts.Add(new Post());
+            // System.Console.WriteLine("Hello!");
             // /*
-            ReadUser(1);
-            ReadRoles();
-            ReadTags();
+            // ReadUser(1);
+            // ReadRoles();
+            // ReadTags();
             System.Console.WriteLine();
             // ReadUser();
             // CreateUser();
@@ -31,9 +31,13 @@ namespace Blog
 
         public static void ReadUsers()
         {
-            var repository = new Repository<User>();
-            var items = repository.Read();
-            foreach (var item in items) System.Console.WriteLine(item.Name);
+            var repository = new UserRepository();
+            var items = repository.ReadWithRoles();
+            foreach (var item in items)
+            {
+                System.Console.WriteLine(item.Name);
+                foreach (Role role in item.Roles) System.Console.WriteLine($"- {role.Name}");
+            }
         }
         public static void ReadUser(int id)
         {

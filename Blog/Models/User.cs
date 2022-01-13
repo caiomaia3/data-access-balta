@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Blog.Interfaces;
 using Dapper.Contrib.Extensions;
@@ -16,6 +17,12 @@ namespace Blog.Models
         public string Bio { get; set; }
         public string Image { get; set; }
         public string Slug { get; set; }
+        [Write(false)]
         public List<Role> Roles { get; set; }
+
+        public static explicit operator List<object>(User v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
