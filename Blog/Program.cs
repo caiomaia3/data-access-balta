@@ -2,6 +2,22 @@
 using Blog.Models;
 using Blog.Repositories;
 using Blog.Services;
+using Blog.Views;
+
+//TODO DESAFIO
+//[ ] Cadastrar um usuário
+//[ ] Cadastrar um perfil
+//[ ] Vincular um usuário a um perfil 
+//[ ] Cadastrar uma categoria
+//[ ] Cadastrar uma tag
+//[ ] Cadastrar um post
+//[ ] Vincular um post a uma tag
+//[ ] Listar os usuários (Nome, Email e perfis separados por vírgula)
+//[ ] Listar categorias com quantidades de posts
+//[ ] Listar tags com quantidades de posts
+//[ ] Listar os posts de uma categoria
+//[ ] Listar todos os posts com sua categoria
+//[ ] Listar os posts com suas tags (separadas por vírgula)
 
 namespace Blog
 {
@@ -9,7 +25,9 @@ namespace Blog
     {
         private static void Main()
         {
-            ConnectionService.GetInstance().Connection.Open();
+            Menu.Show();
+
+            // ConnectionService.GetInstance().Connection.Open();
             // var cat = new Category();
             // cat.Posts.Add(new Post());
             // System.Console.WriteLine("Hello!");
@@ -17,12 +35,12 @@ namespace Blog
             // ReadUser(1);
             // ReadRoles();
             // ReadTags();
-            System.Console.WriteLine();
+            // System.Console.WriteLine();
             // ReadUser();
             // CreateUser();
             // UpdateUser();
             // DeleteUser();
-            ReadUsers();
+            // ReadUsers();
             // UpdateUser();
             // */
 
