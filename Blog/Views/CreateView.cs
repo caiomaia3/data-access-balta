@@ -203,8 +203,52 @@ namespace Blog.Views
 
         internal static void Tag()
         {
-            //[ ] Cadastrar uma tag
-            throw new NotImplementedException();
+            //[x] Cadastrar uma tag
+            Tag tag;
+            do
+            {
+                List<ConsoleCursor> cursors = ShowScreen(WriteTagOptions);
+                tag = GetTagForm(cursors);
+            } while (ConfirmationScreen(WriteConfirmationScreen));
+            SendToRepository(tag);
+            Input.Show();
+
+            static List<ConsoleCursor> WriteTagOptions()
+            {
+                const int INITIAL_LINE = 1, INITIAL_COLUMN = 3;
+                int lineCursor = INITIAL_LINE;
+                var cursor = new ConsoleCursor(1, lineCursor++);
+                var cursors = new List<ConsoleCursor>();
+
+                cursor = WriteFormField("CADASTRO DE TAG", cursor);
+                lineCursor += 2;
+                cursor.Set(INITIAL_COLUMN, lineCursor++);
+                cursor = WriteFormField("Nome:", cursor);
+                cursors.Add(cursor);
+                cursor.Set(INITIAL_COLUMN, lineCursor++);
+                cursor = WriteFormField("Slug:", cursor);
+                cursors.Add(cursor);
+                return cursors;
+            }
+
+            static Tag GetTagForm(List<ConsoleCursor> cursors)
+            {
+                const int FIRST_ELEMENT = 0;
+                string name, slug;
+
+                Console.SetCursorPosition(cursors[FIRST_ELEMENT].Left, cursors[FIRST_ELEMENT].Top);
+                name = Console.ReadLine();
+                cursors.RemoveAt(FIRST_ELEMENT);
+                Console.SetCursorPosition(cursors[FIRST_ELEMENT].Left, cursors[FIRST_ELEMENT].Top);
+                slug = Console.ReadLine();
+                cursors.RemoveAt(FIRST_ELEMENT);
+
+                return new Tag
+                {
+                    Name = name,
+                    Slug = slug
+                };
+            }
         }
 
         internal static void Post()
