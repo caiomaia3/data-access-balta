@@ -5,12 +5,7 @@ using Blog.Services;
 using Blog.Views;
 
 //TODO DESAFIO
-//[x] Cadastrar um usuário
-//[ ] Cadastrar um perfil
 //[ ] Vincular um usuário a um perfil 
-//[ ] Cadastrar uma categoria
-//[ ] Cadastrar uma tag
-//[ ] Cadastrar um post
 //[ ] Vincular um post a uma tag
 //[ ] Listar os usuários (Nome, Email e perfis separados por vírgula)
 //[ ] Listar categorias com quantidades de posts

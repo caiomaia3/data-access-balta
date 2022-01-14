@@ -10,28 +10,15 @@ namespace Blog.Views
     {
         internal static void User()
         {
+            //[x] Cadastrar um usuário
             User user;
             do
             {
                 List<ConsoleCursor> cursors = ShowScreen(WriteOptions);
                 user = GetForm(cursors);
-                System.Console.WriteLine(user.Name);
             } while (ConfirmationScreen(WriteConfirmationScreen));
             SendToRepository(user);
             Input.Show();
-
-            static void WriteConfirmationScreen()
-            {
-                const int INITIAL_LINE = 1, INITIAL_COLUMN = 3;
-                int lineCursor = INITIAL_LINE;
-                var cursor = new ConsoleCursor();
-
-                lineCursor += 7;
-                cursor.Set(INITIAL_COLUMN, lineCursor++);
-                WriteFormField("ENTER - confirmar", cursor);
-                cursor.Set(INITIAL_COLUMN, lineCursor++);
-                WriteFormField(" ESC  - cancelar", cursor);
-            }
 
             static List<ConsoleCursor> WriteOptions()
             {
@@ -112,35 +99,134 @@ namespace Blog.Views
             }
         }
 
-        private static void SendToRepository<T>(T entity) where T : class, IHasId
-        {
-            var repository = new Repository<T>();
-            repository.Create(entity);
-        }
-
         internal static void Role()
         {
-            throw new NotImplementedException();
+            //[x] Cadastrar um perfil
+
+            Role role;
+            do
+            {
+                List<ConsoleCursor> cursors = ShowScreen(WriteRoleOptions);
+                role = GetRoleForm(cursors);
+            } while (ConfirmationScreen(WriteConfirmationScreen));
+            SendToRepository(role);
+            Input.Show();
+
+            static List<ConsoleCursor> WriteRoleOptions()
+            {
+                const int INITIAL_LINE = 1, INITIAL_COLUMN = 3;
+                int lineCursor = INITIAL_LINE;
+                var cursor = new ConsoleCursor(1, lineCursor++);
+                var cursors = new List<ConsoleCursor>();
+
+                cursor = WriteFormField("CADASTRO DE PERFIL", cursor);
+
+                lineCursor += 2;
+                cursor.Set(INITIAL_COLUMN, lineCursor++);
+                cursor = WriteFormField("Nome:", cursor);
+                cursors.Add(cursor);
+                cursor.Set(INITIAL_COLUMN, lineCursor++);
+                cursor = WriteFormField("Slug:", cursor);
+                cursors.Add(cursor);
+                return cursors;
+            }
+
+            static Role GetRoleForm(List<ConsoleCursor> cursors)
+            {
+                const int FIRST_ELEMENT = 0;
+                string name, slug;
+
+                Console.SetCursorPosition(cursors[FIRST_ELEMENT].Left, cursors[FIRST_ELEMENT].Top);
+                name = Console.ReadLine();
+                cursors.RemoveAt(FIRST_ELEMENT);
+                Console.SetCursorPosition(cursors[FIRST_ELEMENT].Left, cursors[FIRST_ELEMENT].Top);
+                slug = Console.ReadLine();
+                cursors.RemoveAt(FIRST_ELEMENT);
+
+                return new Role
+                {
+                    Name = name,
+                    Slug = slug
+                };
+            }
         }
 
         internal static void Category()
         {
-            throw new NotImplementedException();
+            //[x] Cadastrar uma categoria
+            Category category;
+            do
+            {
+                List<ConsoleCursor> cursors = ShowScreen(WriteCategoryOptions);
+                category = GetCategoryForm(cursors);
+            } while (ConfirmationScreen(WriteConfirmationScreen));
+            SendToRepository(category);
+            Input.Show();
+
+            static List<ConsoleCursor> WriteCategoryOptions()
+            {
+                const int INITIAL_LINE = 1, INITIAL_COLUMN = 3;
+                int lineCursor = INITIAL_LINE;
+                var cursor = new ConsoleCursor(1, lineCursor++);
+                var cursors = new List<ConsoleCursor>();
+
+                cursor = WriteFormField("CADASTRO DE CATEGORIA", cursor);
+                lineCursor += 2;
+                cursor.Set(INITIAL_COLUMN, lineCursor++);
+                cursor = WriteFormField("Nome:", cursor);
+                cursors.Add(cursor);
+                cursor.Set(INITIAL_COLUMN, lineCursor++);
+                cursor = WriteFormField("Slug:", cursor);
+                cursors.Add(cursor);
+                return cursors;
+            }
+
+            static Category GetCategoryForm(List<ConsoleCursor> cursors)
+            {
+                const int FIRST_ELEMENT = 0;
+                string name, slug;
+
+                Console.SetCursorPosition(cursors[FIRST_ELEMENT].Left, cursors[FIRST_ELEMENT].Top);
+                name = Console.ReadLine();
+                cursors.RemoveAt(FIRST_ELEMENT);
+                Console.SetCursorPosition(cursors[FIRST_ELEMENT].Left, cursors[FIRST_ELEMENT].Top);
+                slug = Console.ReadLine();
+                cursors.RemoveAt(FIRST_ELEMENT);
+
+                return new Category
+                {
+                    Name = name,
+                    Slug = slug
+                };
+            }
         }
 
         internal static void Tag()
         {
+            //[ ] Cadastrar uma tag
             throw new NotImplementedException();
         }
 
         internal static void Post()
         {
+            //[ ] Cadastrar um post
             throw new NotImplementedException();
         }
 
+        private static void WriteConfirmationScreen()
+        {
+            const int INITIAL_LINE = 1, INITIAL_COLUMN = 3;
+            int lineCursor = INITIAL_LINE;
+            var cursor = new ConsoleCursor();
+
+            lineCursor += 7;
+            cursor.Set(INITIAL_COLUMN, lineCursor++);
+            WriteFormField("ENTER - confirmar", cursor);
+            cursor.Set(INITIAL_COLUMN, lineCursor++);
+            WriteFormField(" ESC  - cancelar", cursor);
+        }
         private static bool ConfirmationScreen(Action writeOnScreen)
         {
-
             ShowScreen(writeOnScreen);
             ConsoleKey pressedKey;
             do
@@ -195,6 +281,11 @@ namespace Blog.Views
             finalCursor.Left += fieldText.Length;
             System.Console.WriteLine(fieldText);
             return finalCursor;
+        }
+        private static void SendToRepository<T>(T entity) where T : class, IHasId
+        {
+            var repository = new Repository<T>();
+            repository.Create(entity);
         }
     }
     public struct ConsoleCursor
