@@ -5,7 +5,7 @@ using Blog.Services;
 using Blog.Views;
 
 //TODO DESAFIO
-//[ ] Cadastrar um usuário
+//[x] Cadastrar um usuário
 //[ ] Cadastrar um perfil
 //[ ] Vincular um usuário a um perfil 
 //[ ] Cadastrar uma categoria
