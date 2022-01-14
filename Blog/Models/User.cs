@@ -20,9 +20,5 @@ namespace Blog.Models
         [Write(false)]
         public List<Role> Roles { get; set; }
 
-        public static explicit operator List<object>(User v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

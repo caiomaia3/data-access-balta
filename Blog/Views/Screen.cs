@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 
 namespace Blog.Views
 {
-
     //TODO Inserir caracteres utf8 no console: For char, the default value is '\x0000'
     public class Screen
     {
@@ -22,7 +21,7 @@ namespace Blog.Views
         public Screen(ColorSet color)
         {
             Width = 30;
-            Height = 15;
+            Height = 20;
             Colors = color;
         }
 
@@ -32,6 +31,15 @@ namespace Blog.Views
             Colors.PutConsoleColors();
             writer();
             actualColorSet.PutConsoleColors();
+        }
+
+        public List<T> WriteText<T>(Func<List<T>> writer)
+        {
+            var actualColorSet = new ColorSet();
+            Colors.PutConsoleColors();
+            var cursors = writer();
+            actualColorSet.PutConsoleColors();
+            return cursors;
         }
 
         public void DrawScreen()
@@ -79,7 +87,5 @@ namespace Blog.Views
                 Console.Write(Environment.NewLine);
             }
         }
-
-
     }
 }

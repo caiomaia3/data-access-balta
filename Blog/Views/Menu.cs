@@ -4,31 +4,39 @@ namespace Blog.Views
 {
     public static class Menu
     {
-        public static void Show()
+        private static void ShowScreen()
         {
-            short option;
             var colorSet = new ColorSet
             {
                 Background = ConsoleColor.Blue,
                 Foreground = ConsoleColor.Black
             };
-            var scr = new Screen(colorSet);
+            var scr = new Screen(colorSet) { Height = 15 };
 
             Console.Clear();
             scr.DrawScreen();
             scr.WriteText(WriteOptions);
+        }
+        public static void Show()
+        {
+            const int INVALID_OPTION = -1;
+            ShowScreen();
+            bool isValid = short.TryParse(Console.ReadLine(), out short option);
 
-            option = short.Parse(Console.ReadLine());
-            HandleMenuOption(option);
+            if (isValid) HandleMenuOption(option);
+            else HandleMenuOption(INVALID_OPTION);
         }
 
         private static void HandleMenuOption(short option)
         {
-            const short INPUT = 1, LIST = 2, COMPOSE = 3, EXIT = 0;
+            const short INPUT = 1,
+                        LIST = 2,
+                        COMPOSE = 3,
+                        EXIT = 0;
 
             switch (option)
             {
-                case INPUT: Console.WriteLine("Input"); break;
+                case INPUT: Input.Show(); break;
                 case LIST: Console.WriteLine("List"); break;
                 case COMPOSE: Console.WriteLine("Compose"); break;
                 case EXIT:
@@ -51,7 +59,7 @@ namespace Blog.Views
             Console.SetCursorPosition(INITIAL_COLUMN, lineCursor++);
             Console.WriteLine("==================");
             Console.SetCursorPosition(INITIAL_COLUMN, lineCursor++);
-            Console.WriteLine("Selecione um opção abaixo");
+            Console.WriteLine("Selecione uma opção abaixo");
             lineCursor += 2;
             Console.SetCursorPosition(INITIAL_COLUMN, lineCursor++);
             Console.WriteLine("1 - Cadastrar");
