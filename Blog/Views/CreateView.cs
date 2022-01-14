@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Blog.Interfaces;
 using Blog.Models;
 using Blog.Repositories;
@@ -253,8 +254,104 @@ namespace Blog.Views
 
         internal static void Post()
         {
-            //[ ] Cadastrar um post
-            throw new NotImplementedException();
+            //[x] Cadastrar um post
+            Post post;
+            do
+            {
+                List<ConsoleCursor> cursors = ShowScreen(WriteOptions);
+                post = GetPostForm(cursors);
+            } while (ConfirmationScreen(WriteConfirmationScreen));
+            SendToRepository(post);
+            Input.Show();
+
+            static List<ConsoleCursor> WriteOptions()
+            {
+                // public string Title { get; set; }
+                // public string Summary { get; set; }
+                // public string Body { get; set; }
+                // public string Slug { get; set; }
+                // public DateTime CreateDate { get; set; }
+                // public DateTime LastUpdateTime { get; set; }
+                // public Category Category { get; set; }
+                const int INITIAL_LINE = 1, INITIAL_COLUMN = 3;
+                int lineCursor = INITIAL_LINE;
+                var cursor = new ConsoleCursor(1, lineCursor++);
+                var cursors = new List<ConsoleCursor>();
+
+                cursor = WriteFormField("CADASTRO DE POST", cursor);
+
+                lineCursor += 2;
+                cursor.Set(INITIAL_COLUMN, lineCursor++);
+                cursor = WriteFormField("Título:", cursor);
+                cursors.Add(cursor);
+
+                cursor.Set(INITIAL_COLUMN, lineCursor++);
+                cursor = WriteFormField("Resumo:", cursor);
+                cursors.Add(cursor);
+
+                //TODO Implementar senha oculta
+                // https://stackoverflow.com/questions/23433980/c-sharp-console-hide-the-input-from-console-window-while-typing
+                cursor.Set(INITIAL_COLUMN, lineCursor++);
+                cursor = WriteFormField("Corpo:", cursor);
+                cursors.Add(cursor);
+
+                cursor.Set(INITIAL_COLUMN, lineCursor++);
+                cursor = WriteFormField("Slug:", cursor);
+                cursors.Add(cursor);
+
+                cursor.Set(INITIAL_COLUMN, lineCursor++);
+                cursor = WriteFormField("Data de Criação:", cursor);
+                cursors.Add(cursor);
+
+                cursor.Set(INITIAL_COLUMN, lineCursor++);
+                cursor = WriteFormField("Última Atualização:", cursor);
+                cursors.Add(cursor);
+                return cursors;
+            }
+
+            static Post GetPostForm(List<ConsoleCursor> cursors)
+            {
+                const int FIRST_ELEMENT = 0;
+                string title,
+                        summary,
+                        body,
+                        slug;
+                DateTime createDate, lastUpdateDate;
+
+                Console.SetCursorPosition(cursors[FIRST_ELEMENT].Left, cursors[FIRST_ELEMENT].Top);
+                title = Console.ReadLine();
+                cursors.RemoveAt(FIRST_ELEMENT);
+
+                Console.SetCursorPosition(cursors[FIRST_ELEMENT].Left, cursors[FIRST_ELEMENT].Top);
+                summary = Console.ReadLine();
+                cursors.RemoveAt(FIRST_ELEMENT);
+
+                Console.SetCursorPosition(cursors[FIRST_ELEMENT].Left, cursors[FIRST_ELEMENT].Top);
+                body = Console.ReadLine();
+                cursors.RemoveAt(FIRST_ELEMENT);
+
+                Console.SetCursorPosition(cursors[FIRST_ELEMENT].Left, cursors[FIRST_ELEMENT].Top);
+                slug = Console.ReadLine();
+                cursors.RemoveAt(FIRST_ELEMENT);
+
+                Console.SetCursorPosition(cursors[FIRST_ELEMENT].Left, cursors[FIRST_ELEMENT].Top);
+                createDate = DateTime.Parse(Console.ReadLine(), new CultureInfo("pt-BR"));
+                cursors.RemoveAt(FIRST_ELEMENT);
+
+                Console.SetCursorPosition(cursors[FIRST_ELEMENT].Left, cursors[FIRST_ELEMENT].Top);
+                lastUpdateDate = DateTime.Parse(Console.ReadLine(), new CultureInfo("pt-BR"));
+                cursors.RemoveAt(FIRST_ELEMENT);
+
+                return new Post
+                {
+                    Title = title,
+                    Summary = summary,
+                    Body = body,
+                    Slug = slug,
+                    CreateDate = createDate,
+                    LastUpdateDate = lastUpdateDate
+                };
+            }
         }
 
         private static void WriteConfirmationScreen()
