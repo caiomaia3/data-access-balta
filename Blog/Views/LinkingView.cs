@@ -13,13 +13,14 @@ namespace Blog.Views
 
         internal static void UserRole()
         {
+            //[x] Vincular um usuário a um perfil 
             UserRole userRole;
             do
             {
                 List<ConsoleCursor> cursors = ShareView.ShowScreen(WriteOptions);
                 userRole = GetForm(cursors);
             } while (ShareView.ConfirmationScreen(ShareView.WriteConfirmationScreen));
-            // ShareView.SendToRepository(userRole);
+            ShareView.SendToRepository(userRole);
             LinkSelectionView.Show();
 
             static List<ConsoleCursor> WriteOptions()
@@ -64,6 +65,7 @@ namespace Blog.Views
 
         internal static void PostTag()
         {
+            //[ ] Vincular um post a uma tag
             throw new NotImplementedException();
         }
     }
