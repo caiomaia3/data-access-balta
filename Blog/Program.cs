@@ -5,8 +5,6 @@ using Blog.Services;
 using Blog.Views;
 
 //TODO DESAFIO
-//[ ] Vincular um usuário a um perfil 
-//[ ] Vincular um post a uma tag
 //[ ] Listar os usuários (Nome, Email e perfis separados por vírgula)
 //[ ] Listar categorias com quantidades de posts
 //[ ] Listar tags com quantidades de posts
