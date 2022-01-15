@@ -8,20 +8,16 @@ namespace Blog.Views
     //TODO Inserir caracteres utf8 no console: For char, the default value is '\x0000'
     public class Screen
     {
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public int Width { get; set; } = 40;
+        public int Height { get; set; } = 20;
         public ColorSet Colors { get; set; }
 
         public Screen()
         {
-            Width = 30;
-            Height = 15;
             Colors = new ColorSet();
         }
         public Screen(ColorSet color)
         {
-            Width = 30;
-            Height = 20;
             Colors = color;
         }
 
