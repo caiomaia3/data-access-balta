@@ -31,14 +31,14 @@ namespace Blog.Views
         {
             const short INPUT = 1,
                         LIST = 2,
-                        COMPOSE = 3,
+                        LINK = 3,
                         EXIT = 0;
 
             switch (option)
             {
                 case INPUT: Input.Show(); break;
                 case LIST: Console.WriteLine("List"); break;
-                case COMPOSE: Console.WriteLine("Compose"); break;
+                case LINK: LinkSelectionView.Show(); break;
                 case EXIT:
                     {
                         Console.Clear();
