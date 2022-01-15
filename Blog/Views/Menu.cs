@@ -37,7 +37,7 @@ namespace Blog.Views
             switch (option)
             {
                 case INPUT: Input.Show(); break;
-                case LIST: Console.WriteLine("List"); break;
+                case LIST: ListingSelectionView.Show(); break;
                 case LINK: LinkSelectionView.Show(); break;
                 case EXIT:
                     {

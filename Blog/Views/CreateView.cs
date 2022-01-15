@@ -18,7 +18,7 @@ namespace Blog.Views
                 List<ConsoleCursor> cursors = ShowScreen(WriteOptions);
                 user = GetForm(cursors);
             } while (ConfirmationScreen(WriteConfirmationScreen));
-            SendToRepository(user);
+            ShareView.SendToRepository(user);
             Input.Show();
 
             static List<ConsoleCursor> WriteOptions()
@@ -110,7 +110,7 @@ namespace Blog.Views
                 List<ConsoleCursor> cursors = ShowScreen(WriteRoleOptions);
                 role = GetRoleForm(cursors);
             } while (ConfirmationScreen(WriteConfirmationScreen));
-            SendToRepository(role);
+            ShareView.SendToRepository(role);
             Input.Show();
 
             static List<ConsoleCursor> WriteRoleOptions()
@@ -161,7 +161,7 @@ namespace Blog.Views
                 List<ConsoleCursor> cursors = ShowScreen(WriteCategoryOptions);
                 category = GetCategoryForm(cursors);
             } while (ConfirmationScreen(WriteConfirmationScreen));
-            SendToRepository(category);
+            ShareView.SendToRepository(category);
             Input.Show();
 
             static List<ConsoleCursor> WriteCategoryOptions()
@@ -211,7 +211,7 @@ namespace Blog.Views
                 List<ConsoleCursor> cursors = ShowScreen(WriteTagOptions);
                 tag = GetTagForm(cursors);
             } while (ConfirmationScreen(WriteConfirmationScreen));
-            SendToRepository(tag);
+            ShareView.SendToRepository(tag);
             Input.Show();
 
             static List<ConsoleCursor> WriteTagOptions()
@@ -261,7 +261,7 @@ namespace Blog.Views
                 List<ConsoleCursor> cursors = ShowScreen(WriteOptions);
                 post = GetPostForm(cursors);
             } while (ConfirmationScreen(WriteConfirmationScreen));
-            SendToRepository(post);
+            ShareView.SendToRepository(post);
             Input.Show();
 
             static List<ConsoleCursor> WriteOptions()
@@ -416,11 +416,11 @@ namespace Blog.Views
             System.Console.WriteLine(fieldText);
             return finalCursor;
         }
-        private static void SendToRepository<T>(T entity) where T : class, IHasId
-        {
-            var repository = new Repository<T>();
-            repository.Create(entity);
-        }
+        // private static void SendToRepository<T>(T entity) where T : class, IHasId
+        // {
+        //     var repository = new Repository<T>();
+        //     repository.Create(entity);
+        // }
     }
     public struct ConsoleCursor
     {

@@ -1,10 +1,11 @@
+using System;
 using System.Collections.Generic;
-using Blog.Models;
-using Dapper;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Blog.Repositories
 {
-    public class UserRepository : Repository<User>
+    public class CategoryRepository : Repository<User>
     {
         public UserRepository() : base() { }
         public List<User> ReadWithRoles()

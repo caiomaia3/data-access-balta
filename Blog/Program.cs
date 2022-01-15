@@ -5,12 +5,6 @@ using Blog.Services;
 using Blog.Views;
 
 //TODO DESAFIO
-//[ ] Listar os usuários (Nome, Email e perfis separados por vírgula)
-//[ ] Listar categorias com quantidades de posts
-//[ ] Listar tags com quantidades de posts
-//[ ] Listar os posts de uma categoria
-//[ ] Listar todos os posts com sua categoria
-//[ ] Listar os posts com suas tags (separadas por vírgula)
 
 namespace Blog
 {
@@ -18,9 +12,8 @@ namespace Blog
     {
         private static void Main()
         {
-            Menu.Show();
-
             // ConnectionService.GetInstance().Connection.Open();
+            Menu.Show();
             // var cat = new Category();
             // cat.Posts.Add(new Post());
             // System.Console.WriteLine("Hello!");

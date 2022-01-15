@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Blog.Interfaces;
 using Blog.Repositories;
+using Blog.Services;
 
 namespace Blog.Views
 {
@@ -78,8 +79,11 @@ namespace Blog.Views
         }
         internal static void SendToRepository<T>(T entity) where T : class, IHasId
         {
+
+            ConnectionService.GetInstance().Connection.Open();
             var repository = new Repository<T>();
             repository.Create(entity);
+            ConnectionService.GetInstance().Connection.Close();
         }
     }
 }

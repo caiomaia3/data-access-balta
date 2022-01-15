@@ -65,7 +65,7 @@ namespace Blog.Views
 
         internal static void PostTag()
         {
-            //[ ] Vincular um post a uma tag
+            //[x] Vincular um post a uma tag
             PostTag postTag;
             do
             {
