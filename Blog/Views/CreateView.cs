@@ -266,13 +266,6 @@ namespace Blog.Views
 
             static List<ConsoleCursor> WriteOptions()
             {
-                // public string Title { get; set; }
-                // public string Summary { get; set; }
-                // public string Body { get; set; }
-                // public string Slug { get; set; }
-                // public DateTime CreateDate { get; set; }
-                // public DateTime LastUpdateTime { get; set; }
-                // public Category Category { get; set; }
                 const int INITIAL_LINE = 1, INITIAL_COLUMN = 3;
                 int lineCursor = INITIAL_LINE;
                 var cursor = new ConsoleCursor(1, lineCursor++);
